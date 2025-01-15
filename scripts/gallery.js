@@ -1,90 +1,64 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // ギャラリーコンテナとデータファイルパス
-    const galleryContainer = document.getElementById("gallery-container");
-    const jsonFilePath = "/gallery_data.json";
-
-    // ハンバーガーメニュー関連
-    const hamburgerToggle = document.getElementById("hamburger-toggle");
-    const hamburgerMenu = document.getElementById("hamburger-menu");
-
-    // 表示切り替えボタン
-    const gridViewBtn = document.getElementById("grid-view-btn");
-    const listViewBtn = document.getElementById("list-view-btn");
-
-    // 初期表示モード
-    let currentViewMode = "grid";
-
-    // JSONファイルを取得してギャラリーを生成
-    fetch(jsonFilePath)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`JSONファイルの読み込みエラー: ${response.statusText}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            generateGallery(data, currentViewMode);
-        })
-        .catch(error => {
-            console.error("ギャラリー生成エラー:", error);
-        });
-
-    // ギャラリー生成関数
-    function generateGallery(data, viewMode) {
-        if (!data || data.length === 0) {
-            galleryContainer.innerHTML = "<p>ギャラリーに表示する画像がありません。</p>";
-            return;
+document.addEventListener("DOMContentLoaded", async () => {
+    // gallery_data.json を非同期で読み込む
+    const fetchGalleryData = async () => {
+        const response = await fetch("gallery_data.json");
+        if (!response.ok) {
+            throw new Error("Failed to load gallery data");
         }
+        return await response.json();
+    };
 
-        galleryContainer.innerHTML = ""; // コンテナの初期化
+    let galleryData = []; // グローバルスコープでデータを保持
 
-        data.forEach(item => {
+    // ギャラリーをレンダリングする関数
+    const renderGallery = (view) => {
+        const gallery = document.getElementById("gallery");
+        gallery.innerHTML = "";
+        gallery.className = view === "grid" ? "gallery-container" : "gallery-container--list";
+
+        galleryData.forEach(item => {
             const galleryItem = document.createElement("div");
-            galleryItem.classList.add("gallery-item");
-
-            if (viewMode === "list") {
-                galleryItem.classList.add("list-item");
-            }
+            galleryItem.className = view === "grid" ? "gallery__item" : "gallery__item gallery__item--list";
 
             const img = document.createElement("img");
             img.src = item.image;
             img.alt = item.title;
-
             galleryItem.appendChild(img);
 
-            // リスト表示のみテキストを追加
-            if (viewMode === "list") {
-                const title = document.createElement("span");
+            if (view === "list") {
+                const title = document.createElement("p");
                 title.textContent = item.title;
                 galleryItem.appendChild(title);
             }
 
-            galleryContainer.appendChild(galleryItem);
+            gallery.appendChild(galleryItem);
         });
+    };
 
-        // ビューモードに応じたクラスを適用
-        galleryContainer.className = `gallery-container ${viewMode}-view`;
+    // イベントリスナーの設定
+    const gridViewButton = document.getElementById("gridView");
+    const listViewButton = document.getElementById("listView");
+    const menuToggle = document.querySelector(".header__toggle");
+    const menu = document.querySelector(".header__menu");
+
+    gridViewButton.addEventListener("click", () => renderGallery("grid"));
+    listViewButton.addEventListener("click", () => renderGallery("list"));
+
+    menuToggle.addEventListener("click", () => {
+        menu.classList.toggle("header__menu--active");
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
+            menu.classList.remove("header__menu--active");
+        }
+    });
+
+    try {
+        // データを非同期で取得してグローバル変数に保存
+        galleryData = await fetchGalleryData();
+        renderGallery("grid"); // デフォルト表示をグリッドビューに設定
+    } catch (error) {
+        console.error("Error loading gallery data:", error);
     }
-
-    // 表示モード切り替え
-    gridViewBtn.addEventListener("click", () => {
-        currentViewMode = "grid";
-        fetch(jsonFilePath)
-            .then(response => response.json())
-            .then(data => generateGallery(data, currentViewMode))
-            .catch(error => console.error("表示切り替えエラー:", error));
-    });
-
-    listViewBtn.addEventListener("click", () => {
-        currentViewMode = "list";
-        fetch(jsonFilePath)
-            .then(response => response.json())
-            .then(data => generateGallery(data, currentViewMode))
-            .catch(error => console.error("表示切り替えエラー:", error));
-    });
-
-    // ハンバーガーメニューの開閉
-    hamburgerToggle.addEventListener("click", () => {
-        hamburgerMenu.classList.toggle("active");
-    });
 });

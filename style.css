@@ -1,19 +1,18 @@
-/* 全体のリセット */
-* {
+/* Reset */
+body, h1, h2, h3, p, ul, li, div {
     margin: 0;
     padding: 0;
+    list-style: none;
     box-sizing: border-box;
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow-x: hidden; /* 横スクロールを防止 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
 }
 
-/* ヘッダー */
-header {
+/* Header */
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -25,129 +24,108 @@ header {
     z-index: 1000;
 }
 
-.logo img {
-    height: 40px;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-    margin: 0;
-    padding: 0;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-family: 'Raleway', sans-serif;
-    font-weight: 100;
-    font-size: 14px;
-}
-
-/* ハンバーガーメニュー */
-.hamburger-menu {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background: white;
-    border: 1px solid #ddd;
-    padding: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
-
-.hamburger-menu a {
-    text-decoration: none;
-    color: #333;
-    font-family: 'Raleway', sans-serif;
-    font-weight: 100;
-    font-size: 14px;
-}
-
-/* ハンバーガーメニューのトグルボタン */
-.hamburger-toggle {
+.header__toggle {
     display: flex;
     flex-direction: column;
     gap: 5px;
     cursor: pointer;
 }
 
-.hamburger-toggle span {
-    display: block;
+.header__toggle-icon {
     width: 25px;
     height: 3px;
     background: #333;
 }
 
-/* メニューが開いているときのスタイル */
-.hamburger-menu.active {
+.header__menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header__menu--active {
     display: flex;
 }
 
-/* 表示切替ボタン */
-.view-toggle {
+.header__view-buttons {
     display: flex;
     gap: 10px;
 }
 
-.view-toggle button {
+.header__view-buttons button {
     padding: 5px 10px;
-    border: 1px solid #333;
+    border: 1px solid #ddd;
     background-color: #fff;
     cursor: pointer;
-    font-family: 'Raleway', sans-serif;
-    font-weight: 100;
-    font-size: 14px;
+    transition: background-color 0.2s ease;
 }
 
-.view-toggle button:hover {
-    background-color: #ddd;
+.header__view-buttons button:hover {
+    background-color: #f0f0f0;
 }
 
-/* ギャラリー */
+/* Gallery */
 .gallery-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 0; /* ギャラリー間の隙間を完全に排除 */
-    margin: 0; /* ギャラリー全体の縦マージンを排除 */
-    padding: 0; /* ギャラリー全体のパディングを排除 */
+    gap: 10px;
+    padding: 20px;
 }
 
-.gallery-container.list-view {
-    display: block; /* リスト表示に切り替え */
-    margin: 0;
-    padding: 0;
-}
-
-.gallery-item {
-    margin: 0; /* 各ギャラリーアイテムの縦マージンを排除 */
-    padding: 0; /* 不要なパディングを排除 */
+.gallery__item {
     background: white;
     overflow: hidden;
+    border: 1px solid #ddd;
+    transition: transform 0.3s ease;
 }
 
-.gallery-item img {
+.gallery__item img {
+    display: block;
     width: 100%;
     height: auto;
+    object-fit: cover;
+}
+
+.gallery-container--list {
     display: block;
 }
 
-.gallery-container.list-view .gallery-item {
+.gallery__item--list {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 10px 0;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background: white;
 }
 
-.gallery-container.list-view .gallery-item img {
-    width: 100px;
-    height: 100px;
+.gallery__item--list:nth-child(even) {
+    background: #f7f7f7;
 }
 
-.hidden {
-    display: none !important;
+.gallery__item--list img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+    .header {
+        padding: 15px 40px;
+    }
+
+    .gallery-container {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .gallery__item--list {
+        gap: 15px;
+    }
 }
