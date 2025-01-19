@@ -1,180 +1,146 @@
-/* フォントのインポート */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
-
-/* 全体設定 */
-body, h1, h2, h3, p, ul, li, div {
+/* 全体のリセット */
+* {
     margin: 0;
     padding: 0;
-    list-style: none;
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    font-weight: 300;
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
 }
 
-/* Header */
-.header {
-    display: grid;
-    grid-template-columns: auto 1fr auto; /* 左: ハンバーガー, 中央: ロゴ, 右: ボタン */
+/* ヘッダー */
+header {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding: 0; /* マージンとパディングを完全削除 */
-    height: 60px; /* ヘッダー全体の高さ */
+    padding: 10px 20px;
     background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
     position: sticky;
     top: 0;
     z-index: 1000;
-    border: none; /* ボーダーを完全に削除 */
-}
-
-.header__logo img {
-    display: block;
-    margin: auto; /* 正確に中央揃え */
-    height: 40px; /* ロゴのサイズ */
-    object-fit: contain;
 }
 
 /* ハンバーガーメニュー */
-.header__toggle {
+.hamburger-toggle {
     display: flex;
     flex-direction: column;
     gap: 5px;
     cursor: pointer;
-    margin-left: 10px; /* 左からの余白を追加 */
 }
 
-.header__toggle-icon {
+.hamburger-toggle span {
+    display: block;
     width: 25px;
     height: 3px;
     background: #333;
 }
 
-/* メニュー */
-.header__menu {
+.hamburger-menu {
     display: none;
     flex-direction: column;
+    gap: 10px;
     position: absolute;
-    top: 60px; /* ヘッダーの下に表示 */
-    left: 0;
-    width: 100%;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    padding: 0; /* パディングを削除 */
+    top: 60px;
+    left: 10px;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
-.header__menu--active {
+.hamburger-menu.active {
     display: flex;
 }
 
-.header__menu li {
-    padding: 10px 20px;
-    font-size: 16px;
+.hamburger-menu a {
+    text-decoration: none;
     color: #333;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    font-size: 14px;
 }
 
-.header__menu li:hover {
-    background-color: #f0f0f0;
+/* ロゴ */
+.logo img {
+    height: 40px;
 }
 
-/* 表示切り替えボタン */
-.header__view-buttons {
+/* 表示切替ボタン */
+.view-toggle {
     display: flex;
     gap: 10px;
 }
 
-.header__view-buttons button {
-    padding: 5px 12px; /* ボタンサイズを小さく調整 */
-    font-size: 14px;
-    color: #333;
-    background-color: transparent;
-    border: 1px solid #aaa; /* ボーダーを細く */
-    border-radius: 15px; /* ボタンの形状を柔らかく */
+.view-toggle button {
+    padding: 5px 10px;
+    border: 1px solid #333;
+    background-color: #fff;
     cursor: pointer;
-    transition: all 0.2s ease;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    font-size: 14px;
 }
 
-.header__view-buttons button:hover {
-    background-color: #f7f7f7; /* ホバー時に少し明るく */
-    border-color: #888; /* ボーダーの色も変化 */
-    color: #000; /* テキスト色を濃く */
+.view-toggle button:hover {
+    background-color: #ddd;
 }
 
-/* Gallery */
-main {
-    background-color: #f9f9f9; /* ギャラリーエリア全体の背景色 */
-    padding: 0; /* パディングを削除 */
-}
-
+/* ギャラリー */
 .gallery-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 0; /* アイテム間の間隔をゼロに */
+    gap: 0;
+    margin: 0;
+    padding: 0;
 }
 
-.gallery__item {
+.gallery-container.list-view {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+/* グリッド表示 */
+.gallery-container .gallery-item {
     background: white;
     overflow: hidden;
-    border: none; /* ボーダーを削除 */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
-.gallery__item img {
-    display: block;
-    width: 100%; /* アイテム内に収まるように設定 */
+.gallery-container .gallery-item:hover {
+    transform: translateY(-5px);
+}
+
+.gallery-container .gallery-item img {
+    width: 100%;
     height: auto;
-    object-fit: cover;
-}
-
-.gallery__item:hover {
-    transform: translateY(-5px); /* ホバーで少し浮かせる */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.gallery-container--list {
     display: block;
 }
 
-.gallery__item--list {
+/* リスト表示 */
+.gallery-container.list-view .gallery-item {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 5px 0; /* 上下のパディングを最小限に */
-    border-bottom: none; /* ボーダーを削除 */
-    background: none; /* 背景をなしに */
-    height: 50px; /* サムネイルの高さに合わせる */
+    height: 48px;
+    border-bottom: 1px solid #ddd;
+    padding: 0;
 }
 
-.gallery__item--list img {
-    width: 50px;
-    height: 50px;
+.gallery-container.list-view .gallery-item img {
+    width: 48px;
+    height: 48px;
     object-fit: cover;
 }
 
-.gallery__item--list p {
-    font-size: 14px;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Responsive Design */
-@media (min-width: 768px) {
-    .header {
-        padding: 0;
-    }
-
-    .gallery-container {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
-
-    .gallery__item--list {
-        gap: 15px;
-    }
+.gallery-container.list-view .gallery-item span {
+    font-size: 12px;
+    line-height: 48px;
+    color: #333;
 }

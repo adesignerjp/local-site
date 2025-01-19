@@ -3,33 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery</title>
+    <title>A Designer Gallery</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="header">
-        <div class="header__toggle">
-            <span class="header__toggle-icon"></span>
-            <span class="header__toggle-icon"></span>
-            <span class="header__toggle-icon"></span>
+    <header>
+        <div class="hamburger-toggle" id="hamburger-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-        <div class="header__logo">
-            <img src="images/logo_adesignerinc.png" alt="Logo">
+        <div class="logo">
+            <img src="images/logo_adesignerinc.png" alt="a designer logo">
         </div>
-        <div class="header__view-buttons">
-            <button id="gridView">Grid</button>
-            <button id="listView">List</button>
-        </div>        
-    </header>    
-    <div class="header__menu">
-        <ul>
-            <li>News</li>
-            <li>Profile</li>
-            <li>Contact</li>
-        </ul>
-    </div>
-    <main>
-        <div id="gallery" class="gallery-container"></div>
+        <div class="view-toggle">
+            <button id="grid-view-btn">Grid</button>
+            <button id="list-view-btn">List</button>
+        </div>
+        <nav class="hamburger-menu" id="hamburger-menu">
+            <a href="#news">News</a>
+            <a href="#profile">Profile</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+    
+    <main id="gallery-container" class="gallery-container grid-view">
+        <!-- ギャラリー項目が動的にここに生成されます -->
     </main>
     <script src="scripts/gallery.js"></script>
 </body>
